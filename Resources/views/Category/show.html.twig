@@ -17,7 +17,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ url('admin_blog_article_list') }}">{{ "blog.category.list"|trans|capitalize }}</a></li>
+    <li><a href="{{ url('admin_blog_category_list') }}">{{ "blog.category.list"|trans|capitalize }}</a></li>
     <li class="active">{{ "blog.category.show"|trans|capitalize }} {{ currentCategory.name|capitalize }}</li>
 {% endblock %}
 

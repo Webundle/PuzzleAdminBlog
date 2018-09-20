@@ -92,6 +92,7 @@ puzzle_admin:
                 label: 'blog.category.base'
                 translation_domain: 'admin'
                 path: 'admin_blog_category_list'
+                sub_paths: ['admin_blog_category_create', 'admin_blog_category_update', 'admin_blog_category_show']
                 parent: blog
                 user_roles: ['ROLE_BLOG', 'ROLE_ADMIN']
                 tooltip: 'blog.category.tooltip'

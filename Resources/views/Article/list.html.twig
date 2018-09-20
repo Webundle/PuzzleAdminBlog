@@ -62,12 +62,12 @@
                                     <i class="icon-checkbox-unchecked toggle-icon toggle-item" id="toggle-item-{{ article.id }}"></i>
                                 </a>
                             </td>
-                            <td>{{ article.name }}</td>
                             <td>
-                                <a href="{{ url('admin_blog_category_show', { 'id' : article._embedded['category']['id'] } ) }}">
-                                    {{ article._embedded['category']['name'] }}
+                                <a href="{{ url('admin_blog_article_update', { 'id': article.id }) }}">
+                                    {{ article.name }}
                                 </a>
                             </td>
+                            <td>{{ article._embedded['category']['name'] }}</td>
                             <td>{{ article.createdAt|default('-') }}</td>
                             <td>{{ article.updatedAt|default('-') }}</td>
                             <td>
