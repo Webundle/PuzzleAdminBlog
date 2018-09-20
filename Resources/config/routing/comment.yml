@@ -1,0 +1,15 @@
+admin_blog_comment_list:
+    path:     /list
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Comment:list' }
+
+admin_blog_comment_approve:
+    path:     /{id}/approve
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Comment:approve' }
+    
+admin_blog_comment_disapprove:
+    path:     /{id}/disapprove
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Comment:disapprove' }
+
+admin_blog_comment_delete:
+    path:     /{id}/delete
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Comment:delete' }

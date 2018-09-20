@@ -1,0 +1,20 @@
+# Category
+admin_blog_category_list:
+    path:     /list
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Category:list' }
+
+admin_blog_category_create:
+    path:     /create
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Category:create' }
+
+admin_blog_category_show:
+    path:     /{id}
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Category:show' }
+
+admin_blog_category_update:
+    path:     /{id}/update
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Category:update' }
+    
+admin_blog_category_delete:
+    path:     /{id}/delete
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Category:delete' }

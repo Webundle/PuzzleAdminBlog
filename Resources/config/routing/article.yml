@@ -1,0 +1,19 @@
+admin_blog_article_list:
+    path:     /list
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Article:list' }
+
+admin_blog_article_create:
+    path:     /create
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Article:create' }
+    
+admin_blog_article_show:
+    path:     /{id}
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Article:show' }
+
+admin_blog_article_update:
+    path:     /{id}/update
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Article:update' }
+
+admin_blog_article_delete:
+    path:     /{id}/delete
+    defaults: { _controller: 'PuzzleAdminBlogBundle:Article:remove' }

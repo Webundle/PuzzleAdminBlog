@@ -1,0 +1,104 @@
+{% trans_default_domain 'admin' %}
+
+{% set subactive = "admin_blog_comment_list" %}
+
+{% extends 'PuzzleAdminBlogBundle::layout_table.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ "blog.comment.list"|trans }} {% endblock %}
+
+{% block mainsubtitle %} - {{ "blog.comment.base"|trans|capitalize }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">
+        {{ "blog.comment.list"|trans|capitalize }}
+        {% if article is not empty %}
+            <em>{{ article.name }}</em>
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block breadcrumbelements %}
+   <ul class="breadcrumb-elements">
+        <li>
+            <a href="#" class="text-danger delete-list toggle-action hide">
+                <i class="icon-trash-alt"></i> {{ "button.delete_list"|trans }}
+            </a>
+            <input type="hidden" value="admin_blog_comment_delete" id="delete-route-name"/>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block mainpage %}
+    <div class="col-lg-12">
+        <div class="panel panel-flat">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if comments is not empty %}
+                                <a href="#" id="toggle-check">
+                                    <i class="icon-checkbox-unchecked toggle-icon"  id="toggle-check-icon"></i>
+                            </a>
+                                <input type="hidden" value="{{ comments|length|default('0') }}" id="toggle-items-count">
+                                <input type="hidden" value="0" id="toggle-items-checked-count">
+                            {% endif %}
+                        </th>
+                        <th>{{ "blog.comment.authorName"|trans }}</th>
+                        <th>{{ "blog.comment.authorEmail"|trans }}</th>
+                        {% if article is empty %}
+                            <th>{{ "blog.comment.article"|trans }}</th>
+                        {% endif %}
+                        <th class="text-center">{{ "blog.comment.visible"|trans }}</th>
+                        <th>{{ "blog.comment.content"|trans }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                        <tr class="toggleable" id="item-{{ comment.id }}">
+                            <td>
+                                <a class="text-muted text-small text-left toggleable-btn-select" href="#">
+                                    <i class="icon-checkbox-unchecked toggle-icon toggle-item" id="toggle-item-{{ comment.id }}"></i>
+                                </a>
+                            </td>
+                            <td>{{ comment.authorName }}</td>
+                            <td>{{ comment.authorEmail }}</td>
+                            {% if article is empty %}
+                                <td>{{ comment._embedded['article']['name'] }}</td>
+                            {% endif %}
+                            <td class="text-center">
+                                {% if comment.visible == 1 %}
+                                    <span class="badge badge-success">{{ "comment.visible"|trans }}</span>
+                                {% else %}
+                                    <span class="badge badge-default">{{ "comment.visible"|trans }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                                    {{ comment.content }}
+                                </span>
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-control">
+                                    <span class="icons-list toggleable-btn hide toggleable-btn-controls">
+                                        <a href="{{ url('admin_blog_comment_show', { 'id': comment.id }) }}" title="{{ "button.show"|trans }}" class="mr-10">
+                                            <i class="icon-eye"></i> 
+                                        </a>
+                                        <a href="{{ url('admin_blog_comment_update', { 'id': comment.id }) }}" title="{{ "button.update"|trans }}" class="mr-10">
+                                            <i class="icon-pencil"></i> 
+                                        </a>
+                                        <a href="{{ url('admin_blog_comment_delete', {'id': comment.id}) }}" data-toggle="modal" title="{{ "button.delete"|trans }}" class="delete-item" id="delete-item-{{ comment.id }}">
+                                            <i class="icon-trash-alt text-danger"></i>
+                                        </a>
+                                        <input type="hidden" id="label-delete-item-{{ comment.id }}" value="{{ comment.authorName }}">
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

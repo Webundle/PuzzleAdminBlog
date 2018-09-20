@@ -1,0 +1,27 @@
+{% trans_default_domain 'admin' %}
+
+{% set active = "admin" %}
+
+{% set subactive = "admin_blog_article_list" %}
+
+{% extends 'PuzzleAdminBlogBundle::layout_editor.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ "blog.article.update"|trans }} {{ article.name }} {% endblock %}
+
+{% block mainsubtitle %} - {{ "blog.article.base"|trans }}{% endblock %}
+
+{% block breadcrumb %}
+   {{ parent() }}
+   <li><a href="{{ url('admin_blog_article_list') }}">{{ "blog.article.list"|trans|capitalize }}</a></li>
+   <li class="active">{{ "blog.article.update"|trans }}</li>
+{% endblock %}
+
+{% block mainpage %}
+    {% include 'PuzzleAdminBlogBundle:Article:form.html.twig' with { ' form' : form, 'article' : article } %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/puzzleadmin/js/pages/uploader.js') }}" type="text/javascript"></script>
+{% endblock %}
+

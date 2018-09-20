@@ -1,0 +1,86 @@
+{% trans_default_domain 'admin' %}
+
+{% set subactive = "admin_blog_category_list" %}
+
+{% extends 'PuzzleAdminBlogBundle::layout_table.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ "blog.category.list"|trans }} {% endblock %}
+
+{% block mainsubtitle %} - {{ "blog.category.base"|trans|capitalize }}{% endblock %}
+
+{% block headingelements %}
+    <a href="{{ url('admin_blog_category_create') }}" class="btn btn-primary btn-labeled show-modal">
+        <b><i class="icon-add"></i></b>
+        {{ "button.add"|trans }}
+    </a>
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent () }}
+    <li class="active">{{ "blog.category.list"|trans|capitalize }}</li>
+{% endblock %}
+
+{% block breadcrumbelements %}
+    <ul class="breadcrumb-elements">
+        <li>
+            <a href="#" class="text-danger delete-list toggle-action hide">
+                <i class="icon-trash-alt"></i> {{ "button.delete_list"|trans }}
+            </a>
+            <input type="hidden" value="admin_blog_category_delete" id="delete-route-name"/>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block mainpage %}
+    <div class="col-lg-12">
+        <div class="panel panel-flat">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>
+                            {% if categories is not empty %}
+                                <a href="#" id="toggle-check">
+                                    <i class="icon-checkbox-unchecked toggle-icon"  id="toggle-check-icon"></i>
+                                </a>
+                                <input type="hidden" value="{{ categories|length|default('0') }}" id="toggle-items-count">
+                                <input type="hidden" value="0" id="toggle-items-checked-count">
+                            {% endif %}
+                        </th>
+                        <th>{{ "blog.category.name"|trans }}</th>
+                        <th class="text-center">{{ "blog.category.description"|trans }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr class="toggleable" id="item-{{ category.id }}">
+                            <td>
+                                <a class="text-muted text-small text-left toggleable-btn-select" href="#">
+                                    <i class="icon-checkbox-unchecked toggle-icon toggle-item" id="toggle-item-{{ category.id }}"></i>
+                                </a>
+                            </td>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category._embedded['parent'] is defined ? category._embedded['parent']['name'] : "-" }}</td>
+                            <td class="text-right">
+                                <div class="btn-control">
+                                    <span class="icons-list toggleable-btn hide toggleable-btn-controls">
+                                        <a href="{{ url('admin_blog_category_show', { 'id': category.id }) }}" title="{{ "button.show"|trans }}" class="mr-10">
+                                            <i class="icon-users"></i> 
+                                        </a>
+                                        <a href="{{ url('admin_blog_category_update', { 'id': category.id }) }}" title="{{ "button.update"|trans }}" class="mr-10 show-modal">
+                                            <i class="icon-pencil"></i> 
+                                        </a>
+                                        <a href="{{ url('admin_blog_category_delete', {'id': category.id}) }}" data-toggle="modal" title="{{ "button.delete"|trans }}" class="delete-item" id="delete-item-{{ category.id }}">
+                                            <i class="icon-trash-alt text-danger"></i>
+                                        </a>
+                                        <input type="hidden" id="label-delete-item-{{ category.id }}" value="{{ category.name }}">
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% trans_default_domain 'admin' %}
+
+{% set active = "admin" %}
+
+{% set subactive = "admin_blog_article_list" %}
+
+{% extends 'PuzzleAdminBlogBundle::layout_editor.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ "blog.content.article.show"|trans }} {{ article.name }} {% endblock %}
+
+{% block mainsubtitle %}{{ "blog.content.article.show"|trans }} {{ article.name }} {% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ url('admin_blog_article_list') }}">{{ "blog.content.article.list"|trans }}</a></li>
+            <li class="active">{{ article.name }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-plus position-left"></i>
+                    Actions
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="{{ url('admin_blog_article_update', { 'id': article.id }) }}" title="{{ "button.update"|trans }}" alt="{{ "button.update"|trans }}">
+                            <i class="icon-pencil"></i>
+                            {{ "button.update"|trans }}
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#remove_item_modal" data-toggle="modal" title="{{ "button.remove"|trans }}" class="remove-item" id="remove-item-{{ article.id }}">
+                            <i class="icon-trash-alt text-danger"></i>
+                            {{ "button.remove"|trans }}
+                        </a>
+                        <input type="hidden" id="url-remove-item-{{ article.id }}" value="{{ url('admin_blog_article_delete', {'id': article.id}) }}">
+                        <input type="hidden" id="label-remove-item-{{ article.id }}" value="{{ article.name }}">
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block mainpage %}
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="form-label">{{ "blog.property.article.name"|trans }}</label>
+                        <input class="form-control" value="{{ article.name }}" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ "blog.property.article.slug"|trans }}</label>
+                        <input class="form-control" value="{{ article.slug }}" disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="content-group-lg">
+                        {% if article.picture is defined %}
+                        <div class="content-group text-center">
+                            <a href="#" class="display-inline-block">
+                                <img src="{{ article.picture }}" class="img-responsive" alt="">
+                            </a>
+                        </div>
+                        {% endif %}
+                        <h3 class="text-semibold mb-5">
+                            <a href="#" class="text-default">{{ article.name|capitalize }}</a>
+                        </h3>
+
+                        <ul class="list-inline list-inline-separate text-muted content-group">
+                            <li><i class="icon-user"></i> <a href="#" class="text-muted">{{ article.author|capitalize }}</a></li>
+                            <li>{{ article.createdAt|date('d-m-Y H:i') }}</li>
+                            {% if article.enable_comments == 1 %}
+                                <li><a href="#" class="text-muted">{{ article._embebbed['comments']|length|default('0') }} <i class="icon-user"></i></a></li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ url('admin_blog_category_show', { 'id' : category.id }) }}">{{ category.name }}</a>
+                            </li>
+                        </ul>
+
+                        <div class="content-group">
+                            {{ article.description|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="form-label">{{ "blog.property.article.category"|trans }}</label><br/>
+                        <a href="{{ url('admin_blog_category_show', { 'id' : category.id }) }}">{{ category.name }}</a>
+                    </div>
+                    {% if  article.tags is defined %}
+                    <div class="form-group">
+                        <label class="form-label">{{ "blog.property.article.tags"|trans }}</label>
+                        {% for tag in article.tags %}
+                            <span class="badge">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <div class="checkbox checkbox-switchery switchery-sm">
+                            <label for="enabled">{{ "blog.property.article.enable_comments"|trans }}</label>
+                            <input type="checkbox" class="switchery" id="enabled" {% if article.enable_comments == 1 %}checked="checked"{% endif %} disabled />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox checkbox-switchery switchery-sm">
+                            <label for="locked">{{ "blog.property.article.visible"|trans }}</label>
+                            <input type="checkbox" class="switchery" id="locked" {% if article.visible == 1 %}checked="checked"{% endif %} disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if article.picture is defined %}
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <fieldset>
+                        <legend class="text-semibold">{{ "blog.property.article.picture"|trans }}</legend>
+                        <div class="form-group">
+                            <img src="{{ article.picture }}" width="100%"/>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="remove_item_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h3>{{ "content.remove"|trans|capitalize }} <span id="remove_item_label" class="text-bold"></span> ?</h3>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-link" data-dismiss="modal"><i class="icon-cross"></i> {{ "button.close"|trans }}</button>
+                    <a href="" class="btn btn-danger"><i class="icon-trash-alt"></i> {{ "button.remove"|trans }}</a>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/forms/styling/switch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/pages/form_checkboxes_radios.js') }}"></script>
+{% endblock %}
+

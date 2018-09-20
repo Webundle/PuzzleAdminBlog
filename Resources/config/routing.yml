@@ -1,0 +1,11 @@
+article:
+    resource: '@PuzzleAdminBlogBundle/Resources/config/routing/article.yml'
+    prefix: '/articles'
+    
+category:
+    resource: '@PuzzleAdminBlogBundle/Resources/config/routing/category.yml'
+    prefix: '/categories'
+
+comment:
+    resource: '@PuzzleAdminBlogBundle/Resources/config/routing/comment.yml'
+    prefix: '/comments'

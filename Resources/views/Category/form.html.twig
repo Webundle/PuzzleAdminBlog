@@ -1,0 +1,30 @@
+{% trans_default_domain 'admin' %}
+	
+{{ form_start(form) }}
+    <div class="modal-body">
+        <div class="form-group">
+            {{ form_widget(form.parent) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="form-group">
+            {% if category is defined and category.picture is defined %}
+                {% include 'PuzzleAdminMediaBundle:File:embbed.html.twig' with { 'type' : 'image', 'previews' : render_api_media_file(category.picture) } %}
+            {% else %}
+                {% include 'PuzzleAdminMediaBundle:File:embbed.html.twig' with { 'type' : 'image' } %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="modal-footer text-right">
+        <button class="btn btn-default" data-dismiss="modal">
+        	<i class="icon-cross"></i>
+        	{{ "button.close"|trans }}
+        </button>
+	    <button class="btn btn-success">
+	        {{ category is defined ? 'button.update'|trans : 'button.add'|trans }}
+	        <i class="icon-checkmark2"></i>
+	    </button>
+    </div>
+{{ form_end(form) }}

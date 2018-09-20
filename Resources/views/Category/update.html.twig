@@ -1,0 +1,19 @@
+{% trans_default_domain 'admin' %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-info">
+            <h3>{{ "newsletter.group.update"|trans }} <em>{{ category.name }}</em></h3>
+        </div>
+        {% include 'PuzzleAdminBlogBundle:Category:form.html.twig' with { 'form' : form, 'category' : category  } %}
+    </div>
+</div>
+<script>
+    // Default initialization
+    $('.select').select2({
+        minimumResultsForSearch: Infinity
+    });
+</script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/uploaders/fileinput/plugins/purify.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/pages/uploader.js') }}"></script>   

@@ -1,0 +1,61 @@
+{% trans_default_domain 'admin' %}
+
+{{ form_start(form, {'attr': {'class': 'uk-form-stacked'}, 'multipart' : true}) }}
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.description) }}
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-center">
+                        <a class="btn btn-default" href="{{ url('admin_blog_article_list') }}">
+                            <i class="icon-arrow-left8"></i>
+                            {{ 'button.cancel'|trans }}
+                        </a>
+                        <button class="btn btn-success">
+                            {{ article is defined ? 'button.update'|trans : 'button.add'|trans }}
+                            <i class="icon-checkmark2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form_label(form.category) }}
+                        {{ form_widget(form.category) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.tags) }}
+                        {{ form_widget(form.tags) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.enableComments) }}
+                        {{ form_label(form.enableComments) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.visible) }}
+                        {{ form_label(form.visible) }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ "blog.article.picture"|trans }}</label>
+                {% if article is defined and article.picture is defined %}
+                    {% include 'PuzzleAdminMediaBundle:File:embbed.html.twig' with { 'type' : 'image', 'previews' : render_api_media_file(article.picture) } %}
+                {% else %}
+                    {% include 'PuzzleAdminMediaBundle:File:embbed.html.twig' with { 'type' : 'image' } %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}
