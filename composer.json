@@ -25,6 +25,7 @@
 		"symfony/swiftmailer-bundle" : "^2.6.4",
 		"symfony/symfony" : "3.4.*",
 		"twig/twig" : "^1.0||^2.0",
+		"webundle/puzzle-api-blog" : "^1.0",
 		"webundle/puzzle-admin-dashboard" : "^1.0",
 		"webundle/puzzle-admin-media" : "^1.0",
 		"webundle/puzzle-connect" : "^1.0"
