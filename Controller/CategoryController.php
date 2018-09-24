@@ -35,8 +35,7 @@ class CategoryController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @Security("has_role('ROLE_BLOG') or has_role('ROLE_ADMIN')")
 	 */
-    public function listAction(Request $request, $current = "NULL"){
-		
+    public function listAction(Request $request, $current = "NULL") {
 		try {
 		    $criteria = [];
 		    $criteria['filter'] = 'parent=='.$current;
@@ -56,7 +55,7 @@ class CategoryController extends Controller
 		    /** @var EventDispatcher $dispatcher */
 		    $dispatcher = $this->get('event_dispatcher');
 		    $dispatcher->dispatch(ApiEvents::API_BAD_RESPONSE, new ApiResponseEvent($e, $request));
-		    $categories = $currentCategory = [];
+		    $categories = $currentCategory = $parent = [];
 		}
 		
 		return $this->render("PuzzleAdminBlogBundle:Category:list.html.twig",[
@@ -122,17 +121,24 @@ class CategoryController extends Controller
      * @Security("has_role('ROLE_BLOG') or has_role('ROLE_ADMIN')")
      */
     public function showAction(Request $request, $id) {
-        /** @var Puzzle\ConectBundle\Service\PuzzleAPIClient $apiClient */
-        $apiClient = $this->get('puzzle_connect.api_client');
-        $category = $apiClient->pull('/blog/categories/'.$id);
-        
-        if (isset($category['files']) && count($category['files']) > 0){
-            $criteria = [];
-            $criteria['filter'] = 'id=:'.implode(';', $category['files']);
+        try {
+            /** @var Puzzle\ConectBundle\Service\PuzzleAPIClient $apiClient */
+            $apiClient = $this->get('puzzle_connect.api_client');
+            $category = $apiClient->pull('/blog/categories/'.$id);
             
-            $articles = $apiClient->pull('/blog/artilces', $criteria);
-        }else {
-            $articles = null;
+            if (isset($category['files']) && count($category['files']) > 0){
+                $criteria = [];
+                $criteria['filter'] = 'id=:'.implode(';', $category['files']);
+                
+                $articles = $apiClient->pull('/blog/artilces', $criteria);
+            }else {
+                $articles = null;
+            }
+        }catch (BadResponseException $e) {
+            /** @var EventDispatcher $dispatcher */
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(ApiEvents::API_BAD_RESPONSE, new ApiResponseEvent($e, $request));
+            $category = $articles = [];
         }
         
         return $this->render("PuzzleAdminBlogBundle:Category:show.html.twig", array(
