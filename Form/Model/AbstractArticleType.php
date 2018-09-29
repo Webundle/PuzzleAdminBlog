@@ -50,14 +50,23 @@ class AbstractArticleType extends AbstractType
             ))
             ->add('visible', CheckboxType::class, array(
                 'translation_domain' => 'admin',
-                'attr' => [
-                    'class' => 'switchery'
-                ],
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
+                'attr' => ['class' => 'switchery'],
+                'label_attr' => ['class' => 'form-label'],
                 'required' => false
             ))
+            ->add('isBreaking', CheckboxType::class, array(
+                'translation_domain' => 'admin',
+                'label' => 'blog.article.isBreaking',
+                'attr' => ['class' => 'switchery'],
+                'label_attr' => ['class' => 'form-label'],
+                'required' => false
+            ))
+            ->add('expiredAt', TextType::class, [
+                'translation_domain' => 'admin',
+                'label' => 'blog.article.expiredAt',
+                'label_attr' => ['class' => 'form-label'],
+                'attr' => ['class' => 'form-control pickadate']
+            ])
             ->add('tags', TextType::class, array(
                 'translation_domain' => 'admin',
                 'label' => 'blog.article.tags',

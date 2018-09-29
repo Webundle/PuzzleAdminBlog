@@ -21,7 +21,20 @@
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script src="{{ asset('bundles/puzzleadmin/js/pages/uploader.js') }}" type="text/javascript"></script>
+    {{ parent() }}
+    {% javascripts 
+    	'bundles/puzzleadmin/js/pages/uploader.js'
+        'bundles/puzzleadmin/js/plugins/pickers/pickadate/picker.js'
+        'bundles/puzzleadmin/js/plugins/pickers/pickadate/picker.date.js'
+        
+        output = 'compiled/js/admin_blog_article_editor.min.js'
+    %}
+    	<script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(".pickadate").pickadate({
+            format: "dd-mm-yyyy"
+        });
+    </script>
 {% endblock %}
 

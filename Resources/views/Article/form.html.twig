@@ -48,6 +48,21 @@
                     </div>
                 </div>
             </div>
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form_widget(form.isBreaking) }}
+                        {{ form_label(form.isBreaking) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.expiredAt) }}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-calendar"></i></span>
+                            {{ form_widget(form.expiredAt) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="form-label">{{ "blog.article.picture"|trans }}</label>
                 {% if article is defined and article.picture is defined %}
